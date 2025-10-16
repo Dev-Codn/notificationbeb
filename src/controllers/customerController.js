@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { handleDatabaseError } from '../middleware/errorHandler.js';
-
-const prisma = new PrismaClient();
+import prisma from '../lib/prisma.js';
 
 // Get all customers
 export const getAllCustomers = async (req, res) => {

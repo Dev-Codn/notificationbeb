@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { PrismaClient } from '@prisma/client';
 import { createServer } from 'http';
 import socketServer from './services/socketServer.js';
+import apiRoutes from './routes/index.js';
+import prisma from './lib/prisma.js';
 
 // Load environment variables
 dotenv.config();
@@ -11,9 +12,6 @@ dotenv.config();
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-// Initialize Prisma Client
-const prisma = new PrismaClient();
 
 // Create HTTP server for Socket.io
 const httpServer = createServer(app);
@@ -195,7 +193,6 @@ app.post('/api/test-duplicate', async (req, res) => {
 });
 
 // API routes
-import apiRoutes from './routes/index.js';
 app.use('/api', apiRoutes);
 
 // Root endpoint

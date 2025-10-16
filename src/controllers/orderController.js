@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import notificationService from '../services/notificationService.js';
-
-const prisma = new PrismaClient();
+import prisma from '../lib/prisma.js';
 
 // Get all orders
 export const getAllOrders = async (req, res) => {
