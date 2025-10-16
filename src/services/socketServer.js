@@ -25,6 +25,7 @@ class SocketServer {
       'http://127.0.0.1:8081',
       'http://172.20.10.2:8080', // Mobile testing
       'http://172.20.10.2:8081', // Mobile testing (alternate port)
+      'https://notificationfeb.vercel.app',
       process.env.FRONTEND_URL,
       process.env.VERCEL_FRONTEND_URL
     ].filter(Boolean);

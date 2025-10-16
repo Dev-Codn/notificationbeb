@@ -29,10 +29,9 @@ const corsOptions = {
       'http://127.0.0.1:3000',
       'http://127.0.0.1:8080',
       'http://127.0.0.1:8081',
+      'https://notificationfeb.vercel.app',
       process.env.FRONTEND_URL,
       process.env.VERCEL_FRONTEND_URL,
-      // Add your Vercel deployment URL here when you deploy
-      // Example: 'https://your-app.vercel.app'
     ].filter(Boolean);
     
     // In development, allow all origins
