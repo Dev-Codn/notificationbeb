@@ -233,18 +233,25 @@ process.on('SIGINT', async () => {
   process.exit(0);
 });
 
-// Initialize Socket.IO
-socketServer.initialize(httpServer);
+// Initialize Socket.IO only in non-Vercel environments
+// Vercel serverless functions don't support persistent WebSocket connections
+if (process.env.VERCEL !== '1') {
+  socketServer.initialize(httpServer);
+  
+  // Start server - Listen on 0.0.0.0 to allow network access (for mobile testing)
+  httpServer.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 SmartSupply Backend Server running on port ${PORT}`);
+    console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
+    console.log(`🔌 WebSocket server ready for connections`);
+    console.log(`📬 Notification system initialized`);
+    console.log(`⚠️  CORS: All origins allowed`);
+    console.log(`📱 Network access enabled - accessible from mobile devices`);
+  });
+} else {
+  console.log('⚠️  Running in Vercel serverless mode - WebSocket/Socket.IO disabled');
+  console.log('⚠️  Real-time notifications will not work in this environment');
+}
 
-// Start server - Listen on 0.0.0.0 to allow network access (for mobile testing)
-httpServer.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 SmartSupply Backend Server running on port ${PORT}`);
-  console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
-  console.log(`🔌 WebSocket server ready for connections`);
-  console.log(`📬 Notification system initialized`);
-  console.log(`⚠️  CORS: All origins allowed`);
-  console.log(`📱 Network access enabled - accessible from mobile devices`);
-});
-
+// Export the Express app for Vercel serverless functions
 export default app;
