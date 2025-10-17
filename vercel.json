@@ -5,6 +5,19 @@
       "source": "/(.*)",
       "destination": "/api"
     }
-  ]
+  ],
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["prisma/**"]
+      }
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "VERCEL": "1"
+  }
 }
 

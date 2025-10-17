@@ -16,24 +16,13 @@ class SocketServer {
    */
   initialize(httpServer) {
     // Determine allowed origins
-    const allowedOrigins = [
-      'http://localhost:3000',
-      'http://localhost:8080',
-      'http://localhost:8081',
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:8080',
-      'http://127.0.0.1:8081',
-      'http://172.20.10.2:8080', // Mobile testing
-      'http://172.20.10.2:8081', // Mobile testing (alternate port)
-      'https://notificationfeb.vercel.app',
-      process.env.FRONTEND_URL,
-      process.env.VERCEL_FRONTEND_URL
-    ].filter(Boolean);
-
-    // In development, allow all origins for easier testing
-    const corsConfig = process.env.NODE_ENV === 'development' 
-      ? { origin: true, credentials: true }
-      : { origin: allowedOrigins, credentials: true, methods: ['GET', 'POST'] };
+    // ⚠️ ALLOW ALL ORIGINS - For testing/deployment convenience
+    // Note: This is less secure but resolves CORS issues across all domains
+    const corsConfig = { 
+      origin: true, // Allow all origins
+      credentials: true, 
+      methods: ['GET', 'POST'] 
+    };
 
     this.io = new Server(httpServer, {
       cors: corsConfig,

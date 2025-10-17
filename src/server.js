@@ -19,33 +19,10 @@ const httpServer = createServer(app);
 // CORS Configuration - Allow specific origins
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, Postman, etc.)
-    if (!origin) return callback(null, true);
-    
-    const allowedOrigins = [
-      'http://localhost:3000',
-      'http://localhost:8080',
-      'http://localhost:8081',
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:8080',
-      'http://127.0.0.1:8081',
-      'https://notificationfeb.vercel.app',
-      process.env.FRONTEND_URL,
-      process.env.VERCEL_FRONTEND_URL,
-    ].filter(Boolean);
-    
-    // In development, allow all origins
-    if (process.env.NODE_ENV === 'development') {
-      return callback(null, true);
-    }
-    
-    // In production, check against allowed origins
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.warn(`CORS blocked origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
-    }
+    // ⚠️ ALLOW ALL ORIGINS - For testing/deployment convenience
+    // Note: This is less secure but resolves CORS issues across all domains
+    console.log(`✅ CORS accepting request from origin: ${origin || 'no-origin'}`);
+    return callback(null, true);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
@@ -67,6 +44,7 @@ app.use((req, res, next) => {
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
   try {
+    console.log('Health check endpoint hit');
     // Test database connection
     await prisma.$queryRaw`SELECT 1`;
     
